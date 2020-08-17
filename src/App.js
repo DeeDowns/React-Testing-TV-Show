@@ -15,7 +15,7 @@ export default function App() {
   const episodes = seasons[selectedSeason] || [];
 
 
-  console.log(episodes)
+  // console.log(episodes)
   useEffect(() => {
     fetchShow()
       .then(res => {
@@ -33,6 +33,8 @@ export default function App() {
   if (!show) {
     return <h2>Fetching data...</h2>;
   }
+  
+  
 
   return (
     <div className="App">
@@ -40,6 +42,7 @@ export default function App() {
       <h1>{show.name}</h1>
       {parse(show.summary)}
       <Dropdown
+        data-testid='dropdown'
         options={Object.keys(seasons)}
         onChange={handleSelect}
         value={selectedSeason || "Select a season"}
