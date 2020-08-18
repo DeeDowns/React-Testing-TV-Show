@@ -1,6 +1,6 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
+import { render, screen, waitFor, getByText, getByTestId, fireEvent} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { fetchShow as mockFetchShow } from './api/fetchShow'
 import App from './App'
 
@@ -130,20 +130,35 @@ const episodeData = {
 }
 
 test('renders show when data fetch finishes', async () => {
-    //mock the returned value of 'fetchShow'
-    //mimic fetchShow fn without actually making API call
-    mockFetchShow.mockResolvedValueOnce(episodeData)
+    //my code 
+    // mockFetchShow.mockResolvedValueOnce(episodeData)
 
-    //render App
-    render(<App />)
+    // render(<App />)
 
-    // query for dropdown
-    const dropdown = screen.findByTestId(/dropdown/i)
-
-    await userEvent.click(dropdown)
+    // await waitFor(() => {getByText(/select a season/i)})
+    // userEvent.click(dropdown)
 
     // const episodeArr = await screen.findAllByTestId(/episodes/i)
     // expect(episodeArr).toHaveLength(3)
+
+
+
+    //mock the returned value of 'fetchShow'
+    //mimic fetchShow fn without actually making API call
+    mockFetchShow.mockResolvedValueOnce(episodeData);
+
+    //render App
+    const { getByText, getAllByText } = render(<App />)
+    
+    // query for dropdown
+    await waitFor(() => {getByText(/select a season/i)})
+
+    userEvent.click(getByText(/select a season/i))
+ 
+    //make assertions
+    //drop down shows season 1
+    expect(getAllByText(/season /i)).toHaveLength(1);
+    expect(mockFetchShow).toHaveBeenCalledTimes(1);
 
 })
 
