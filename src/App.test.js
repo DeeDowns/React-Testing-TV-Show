@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, waitFor, getByText, getByTestId, fireEvent} from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { fetchShow as mockFetchShow } from './api/fetchShow'
 import App from './App'
